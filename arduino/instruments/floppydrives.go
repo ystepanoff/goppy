@@ -4,7 +4,6 @@ package instruments
 
 import (
 	"machine"
-	"math"
 	"time"
 
 	"github.com/ystepanoff/goppy/arduino/config"
@@ -171,18 +170,23 @@ func (fd *FloppyDrives) HandleDeviceMessage(subAddress byte, command byte, paylo
 }
 
 // bendPitch applies pitch bend to a drive's current note.
+//
+// 14-bit signed value: -8192 to 8191. Full deflection bends by BendOctaves,
+// so the exponent x = BendOctaves * deflection/8192 lies in [-1/6, 1/6].
+// In that tiny range we approximate 2^x = e^(x*ln2) with a 4-term Taylor
+// series instead of pulling in libm's exp() (TinyGo can't link it on AVR).
+// Worst-case error at |x|=1/6 is well below 0.01%.
 func (fd *FloppyDrives) bendPitch(driveNum byte, payload []byte) {
-	// 14-bit signed value: -8192 to 8191
 	bendDeflection := int16(payload[0])<<8 | int16(payload[1])
 
 	if fd.originalPeriod[driveNum] == 0 {
 		return
 	}
 
-	// Bend by BendOctaves at full deflection.
-	// Doubling frequency = halving period, so divide by 2^(octaves * deflection/8192).
-	divisor := math.Pow(2.0, BendOctaves*float64(bendDeflection)/8192.0)
-	fd.currentPeriod[driveNum] = uint16(float64(fd.originalPeriod[driveNum]) / divisor)
+	const ln2 = 0.6931471805599453
+	x := BendOctaves * float32(bendDeflection) / 8192.0 * ln2
+	divisor := 1 + x*(1+x*(0.5+x*(1.0/6.0+x*(1.0/24.0))))
+	fd.currentPeriod[driveNum] = uint16(float32(fd.originalPeriod[driveNum]) / divisor)
 }
 
 // haltAllDrives immediately stops all notes.
