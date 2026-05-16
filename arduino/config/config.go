@@ -144,6 +144,12 @@ const DevCmdNoteOn byte = 0x09
 // Allows smooth pitch slides and vibrato effects.
 const DevCmdBendPitch byte = 0x0E
 
+// DevCmdSetMovement toggles full-range head movement on a drive.
+// Payload: [flag] - flag == 0 enables full 0-158 range, any other
+// value clamps the head to a 2-track wiggle around centre. (Inverted
+// polarity, but matches the reference firmware and Moppy UI.)
+const DevCmdSetMovement byte = 0x64
+
 // =============================================================================
 // FEATURE FLAGS
 // =============================================================================

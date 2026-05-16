@@ -166,6 +166,10 @@ func (fd *FloppyDrives) HandleDeviceMessage(subAddress byte, command byte, paylo
 		if len(payload) >= 2 {
 			fd.bendPitch(subAddress, payload)
 		}
+	case config.DevCmdSetMovement:
+		if len(payload) > 0 {
+			fd.setMovement(subAddress, payload[0] == 0)
+		}
 	}
 }
 
