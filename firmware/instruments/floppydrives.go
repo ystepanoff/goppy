@@ -6,8 +6,8 @@ import (
 	"machine"
 	"time"
 
-	"github.com/ystepanoff/goppy/arduino/config"
-	"github.com/ystepanoff/goppy/arduino/notes"
+	"github.com/ystepanoff/goppy/firmware/config"
+	"github.com/ystepanoff/goppy/firmware/notes"
 )
 
 // BendOctaves is the pitch bend range in octaves at full deflection.

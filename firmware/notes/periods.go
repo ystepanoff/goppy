@@ -2,7 +2,7 @@
 // These lookup tables avoid expensive floating-point math at runtime.
 package notes
 
-import "github.com/ystepanoff/goppy/arduino/config"
+import "github.com/ystepanoff/goppy/firmware/config"
 
 // NotePeriods contains the period in microseconds for each MIDI note (0-127).
 // Formula: period_µs = 1,000,000 / (440 * 2^((note - 69) / 12))

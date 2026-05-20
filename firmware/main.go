@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/ystepanoff/goppy/arduino/config"
-	"github.com/ystepanoff/goppy/arduino/instruments"
-	"github.com/ystepanoff/goppy/arduino/networks"
+	"github.com/ystepanoff/goppy/firmware/config"
+	"github.com/ystepanoff/goppy/firmware/instruments"
+	"github.com/ystepanoff/goppy/firmware/networks"
 )
 
 func main() {

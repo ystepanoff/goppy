@@ -5,7 +5,7 @@ package networks
 import (
 	"machine"
 
-	"github.com/ystepanoff/goppy/arduino/config"
+	"github.com/ystepanoff/goppy/firmware/config"
 )
 
 // =============================================================================
